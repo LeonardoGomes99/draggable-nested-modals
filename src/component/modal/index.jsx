@@ -2,14 +2,12 @@ import React, { useRef, useEffect, useContext, Fragment } from 'react';
 import Draggable from 'react-draggable';
 import { useModal } from '../../context/modal';
 
-export const openNestedModal = (parentModalId, openModal, closeModal, size = 'md', component = <Fragment />) => {
+export const openNestedModal = (parentModalId, openModal, size = 'md', component = (onClose) => <Fragment />) => {
   const modalId = null;
   openModal(
     ({ id, onClose }) => (
       <Modal id={id} onClose={onClose} size={size}>
-        <div id='thisClose' onClick={e => closeModal(id)}></div>
-        {component}
-
+        {component(onClose)} // Here we call component with onClose
       </Modal>
     ),
     {}, // Additional props (if any)
@@ -18,7 +16,7 @@ export const openNestedModal = (parentModalId, openModal, closeModal, size = 'md
   );
 };
 
-export const openSimpleModal = (parentModalId, openModal, closeModal, size = 'md', component = <Fragment />) => {
+export const openSimpleModal = (parentModalId, openModal, size = 'md', component = <Fragment />) => {
   const modalId = null;
   openModal(
     ({ id, onClose }) => (
@@ -32,49 +30,6 @@ export const openSimpleModal = (parentModalId, openModal, closeModal, size = 'md
     parentModalId // Pass the parent modal ID for nested modals
   );
 };
-
-export const closeThisModal = (event) => {
-  const button = event.currentTarget; // The button that was clicked
-
-  // Helper function to find the closest element with ID "thisClose"
-  const findClosestDiv = (element) => {
-    // Traverse up the DOM tree
-    let parent = element.parentElement;
-    while (parent) {
-      if (parent.id === 'thisClose') {
-        return parent;
-      }
-      parent = parent.parentElement;
-    }
-
-    // Traverse siblings (including non-immediate siblings)
-    let sibling = element.previousElementSibling;
-    while (sibling) {
-      if (sibling.id === 'thisClose') {
-        return sibling;
-      }
-      sibling = sibling.previousElementSibling;
-    }
-
-    sibling = element.nextElementSibling;
-    while (sibling) {
-      if (sibling.id === 'thisClose') {
-        return sibling;
-      }
-      sibling = sibling.nextElementSibling;
-    }
-
-    return null; // Not found
-  };
-
-  const closestDiv = findClosestDiv(button);
-
-  if (closestDiv) {
-    closestDiv.click(); // Simulate a click on the element
-  } else {
-    console.log('No element with ID "thisClose" found nearby.');
-  }
-}
 
 /// CORE MODAL
 export const Modal = ({ id, children, onClose, size }) => {

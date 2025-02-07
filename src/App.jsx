@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { openNestedModal, openSimpleModal } from './component/modal';
 import { useModal } from './context/modal';
-import {PaginaTeste} from './pages/eventos';
+import { PaginaTeste } from './pages/eventos';
 import './App.css';
 
 const App = () => {
@@ -17,9 +17,11 @@ const App = () => {
     <div>
       <h1>Recursive Modals with UUID</h1>
       {num}
-      <br/>
-      <button onClick={() => openNestedModal("modal_id-tabelas", openModal, closeModal, 'xxl', <PaginaTeste increaseNumber={increaseNumber} />)}>Open Nested Modal</button>      
-      {/* <button onClick={() => openSimpleModal('modal_id-funcionarios', openModal, 'xxl', <PaginaTeste /> )}>Open Simple Modal</button> */}
+      <br />
+      <button onClick={() =>
+        openNestedModal("modal_id-tabelas", openModal, 'xxl', (onClose) => <PaginaTeste increaseNumber={increaseNumber} onClose={onClose} />)}>
+        Open Nested Modal
+      </button>
     </div>
   );
 };
