@@ -1,17 +1,49 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, Fragment } from 'react';
 import Draggable from 'react-draggable';
 import { useModal } from '../../context/modal';
 
-const TAMANHOS_MODAL = {
-  "mini": { height: "200px", width: "200px" },
-  "pequeno": { height: "300px", width: "300px" },
-  "medio": { height: "400px", width: "400px" },
-  "grande": { height: "700px", width: "700px" },
-  "gigante": { height: "1000px", width: "700px" },
+export const openNestedModal = (parentModalId, openModal, closeModal, size = 'md', component = <Fragment />) => {
+  const modalId = null;
+  openModal(
+    ({ id, onClose }) => (
+      <Modal id={id} onClose={onClose} size={size}>
+        <div className='thisClose' onClick={e => closeModal(id)}>
+          {component}
+        </div>
+      </Modal>
+    ),
+    {}, // Additional props (if any)
+    modalId, // Pass the custom modal ID
+    parentModalId // Pass the parent modal ID for nested modals
+  );
+};
+
+export const openSimpleModal = (parentModalId, openModal, closeModal, size = 'md', component = <Fragment />) => {
+  const modalId = null;
+  openModal(
+    ({ id, onClose }) => (
+      <Modal id={id} onClose={onClose} size={size}>
+        <div className='thisClose' onClick={e => closeModal(id)}>
+          {component ? component : <h1>Hello World</h1>}
+        </div>
+      </Modal>
+    ),
+    {}, // Additional props (if any)
+    modalId, // Pass the custom modal ID
+    parentModalId // Pass the parent modal ID for nested modals
+  );
+};
+
+export const closeThisModal = (e) => {
+  const modal = e.target.closest(".thisClose");
+  debugger
+  if (modal && e.currentTarget !== modal) {
+    modal.dispatchEvent(new Event("customClick", { bubbles: true }));
+  }
 }
 
-
-export const Modal = ({ id, children, onClose }) => {
+/// CORE MODAL
+export const Modal = ({ id, children, onClose, size }) => {
   const nodeRef = useRef(null);
   const { closeActiveModal } = useModal(); // Use the closeActiveModal function
 
@@ -24,6 +56,14 @@ export const Modal = ({ id, children, onClose }) => {
       right: window.innerWidth - 100,
     };
   };
+
+  const TAMANHOS_MODAL = {
+    "xs": { height: "200px", width: "300px" },
+    "sm": { height: "300px", width: "400px" },
+    "md": { height: "400px", width: "600px" },
+    "xl": { height: "500px", width: "900px" },
+    "xxl": { height: "600px", width: "1180px" },
+  }
 
   // Ensure the modal is centered when it first appears
   useEffect(() => {
@@ -51,7 +91,7 @@ export const Modal = ({ id, children, onClose }) => {
           alignItems: 'center',
           pointerEvents: 'none',
         }}
-        onClick={closeActiveModal} // Close the active modal when clicking outside
+        onClick={closeActiveModal}
       >
         <div
           style={{
@@ -60,11 +100,13 @@ export const Modal = ({ id, children, onClose }) => {
             borderRadius: '8px',
             position: 'relative',
             pointerEvents: 'auto',
-            maxWidth: '90vw',
-            maxHeight: '90vh',
+            height: TAMANHOS_MODAL[size].height,
+            width: TAMANHOS_MODAL[size].width,
+            maxWidth: '100vw',
+            maxHeight: '100vh',
             overflow: 'auto',
           }}
-          onClick={(e) => e.stopPropagation()} // Prevent clicks inside the modal from closing it
+          onClick={(e) => e.stopPropagation()}
         >
           {children}
           <button onClick={onClose}>Close This Modal</button>
