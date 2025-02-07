@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { openNestedModal, openSimpleModal } from './component/modal';
+import { openModalWindow } from './component/modal';
 import { useModal } from './context/modal';
 import { PaginaTeste } from './pages/eventos';
 import './App.css';
@@ -19,7 +19,7 @@ const App = () => {
       {num}
       <br />
       <button onClick={() =>
-        openNestedModal("modal_id-tabelas", openModal, 'xxl', (onClose) => <PaginaTeste increaseNumber={increaseNumber} onClose={onClose} />)}>
+        openModalWindow("modal_id-tabelas", openModal, 'xxl', (onClose) => <PaginaTeste increaseNumber={increaseNumber} onClose={onClose} />)}>
         Open Nested Modal
       </button>
     </div>

@@ -2,27 +2,12 @@ import React, { useRef, useEffect, useContext, Fragment } from 'react';
 import Draggable from 'react-draggable';
 import { useModal } from '../../context/modal';
 
-export const openNestedModal = (parentModalId, openModal, size = 'md', component = (onClose) => <Fragment />) => {
+export const openModalWindow = (parentModalId, openModal, size = 'md', component = (onClose) => <Fragment />) => {
   const modalId = null;
   openModal(
     ({ id, onClose }) => (
       <Modal id={id} onClose={onClose} size={size}>
         {component(onClose)} // Here we call component with onClose
-      </Modal>
-    ),
-    {}, // Additional props (if any)
-    modalId, // Pass the custom modal ID
-    parentModalId // Pass the parent modal ID for nested modals
-  );
-};
-
-export const openSimpleModal = (parentModalId, openModal, size = 'md', component = <Fragment />) => {
-  const modalId = null;
-  openModal(
-    ({ id, onClose }) => (
-      <Modal id={id} onClose={onClose} size={size}>
-        <div id='thisClose' onClick={e => closeModal(id)}></div>
-        {component ? component : <h1>Hello World</h1>}
       </Modal>
     ),
     {}, // Additional props (if any)
