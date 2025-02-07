@@ -23,6 +23,8 @@ export const PaginaTeste = ({ increaseNumber }) => {
 
             <input onChange={e=>increaseNumber(e)} />            
 
+            <button onClick={() => openNestedModal("modal_id-tabelas", openModal, closeModal, 'xxl', <PaginaTeste increaseNumber={increaseNumber} />)}>Open Nested Modal</button>      
+
             <div className="content">
                 <h1>Content</h1>
                 <p>Some content blablabla, some content blablabla.</p>
