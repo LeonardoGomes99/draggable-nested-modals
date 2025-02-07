@@ -16,7 +16,7 @@ export const PaginaTeste = ({ increaseNumber, onClose }) => {
             <button onClick={onClose}>Hello World</button>
 
             <button onClick={() =>
-                openModalWindow("modal_id-tabelas", openModal, 'xxl', (onClose) => <PaginaTeste increaseNumber={increaseNumber} onClose={onClose} />)}>
+                openModalWindow("modal_id-tabelas", openModal, 'sm', (onClose) => <PaginaTeste increaseNumber={increaseNumber} onClose={onClose} />)}>
                 Open Nested Modal
             </button>
 
