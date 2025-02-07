@@ -34,6 +34,8 @@ const App = () => {
     <div>
       <h1>Recursive Modals with UUID</h1>
       <button onClick={() => openNestedModal("n", true, )}>Open Nested Modal</button>
+      <button onClick={() => openNestedModal("a", true, )}>Open Nested Modal</button>
+
       <button onClick={() => openNestedModal(null, false)}>Open Simple Modal</button>
     </div>
   );

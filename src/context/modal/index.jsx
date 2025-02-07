@@ -50,7 +50,7 @@ export const ModalProvider = ({ children }) => {
     if (parentModalId) {
       // Check if parent modal has children, get last number in ID, sum, and add new child
       let parentCounter = modalCounters[parentModalId] || 0;
-      parentCounter += 1+ `${generateRandomString(4)}`;
+      parentCounter = `${generateRandomString(4)}`;
 
       // Update counter for this parent modal
       setModalCounters(prevCounters => ({
